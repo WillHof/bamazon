@@ -47,8 +47,8 @@ function buyProduct(arr) {
         for (i = 1; i < arr.length; i++) {
             newArr.push(arr[i][0])
         }
-        console.log(ansID.toString());
 
+        //checks if its a valid thing
         if (newArr.includes(ansID.toString())) { productsPurchased(answers, arr) }
         else {
             console.log("this is not a valid ID");
