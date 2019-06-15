@@ -42,6 +42,7 @@ function buyProduct(arr) {
             name: 'quantity'
         }
     ]).then(answers => {
+        //creates array of ids which gets checked against the user input
         var newArr = []
         let ansID = answers.id
         for (i = 1; i < arr.length; i++) {
@@ -49,7 +50,9 @@ function buyProduct(arr) {
         }
 
         //checks if its a valid thing
-        if (newArr.includes(ansID.toString())) { productsPurchased(answers, arr) }
+        if (newArr.includes(ansID.toString())) {
+            productsPurchased(answers, arr)
+        }
         else {
             console.log("this is not a valid ID");
             connection.end();
@@ -72,6 +75,7 @@ function productsPurchased(obj, arr) {
     }
     else {
         console.log("Cannot initiate purchase! Insufficient quantity in stock!")
+        connection.end()
     }
 }
 
