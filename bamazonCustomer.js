@@ -1,4 +1,3 @@
-const pretty = require("pretty-columns");
 const inquirer = require("inquirer");
 const sql = require("mysql")
 const connection = sql.createConnection({
@@ -66,6 +65,7 @@ function buyProduct(arr) {
 function productsPurchased(obj, arr) {
     let quant = obj.quantity;
     let id = obj.id;
+    //arr is an array of arrays, basically a copy of the database. since the first line of this array is the column headers, the entered id will also match the position in the arrray. 
     let newQuant = arr[id][4] - quant
     let cost = arr[id][3] * quant
     if (newQuant >= 0) {
