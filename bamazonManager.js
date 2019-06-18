@@ -31,7 +31,7 @@ function menuInit() {
                 break;
             case "Add to Inventory": addToInv()
                 break;
-            case "Add New Product": addToInv()
+            case "Add New Product": addProduct()
         }
     })
 }
@@ -83,7 +83,41 @@ function addToInv() {
         connection.end()
     })
 }
-function addProcuct() {
+function addProduct() {
+    inquirer.prompt([
+        {
+            name: "product",
+            type: "input",
+            message: "Enter the name of the product you wish to add"
+        },
+        {
+            name: "quantity",
+            type: "number",
+            message: "Enter the amount of the product we have in stock"
+        },
+        {
+            name: "department",
+            type: "input",
+            message: "What department onboarded the new product?"
+        },
+        {
+            name: "price",
+            type: "number",
+            message: "How much does the product cost?"
+        }
+    ]).then(answers => {
+        let product = answers.product;
+        let quant = answers.quantity;
+        let dept = answers.department;
+        let price = answers.price;
+        connection.query(`INSERT INTO PRODUCTS (product_name,department_name,price,stock_quantity) VALUES(?,?,?,?)`, [`${product}`, `${dept}`, `${price}`, `${quant}`], function (err, res) {
+            if (err) throw err;
+            console.log("Product successfully added. See below for details")
+            console.log(res.message)
+            console.log(`Item Name:${product}\nQuantity:${quant}\nDept:${dept}\nPrice:${price}`)
+        });
+        connection.end()
+    })
 
 }
 function printResults(arr) {
