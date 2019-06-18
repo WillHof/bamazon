@@ -74,10 +74,12 @@ function addToInv() {
     ]).then(answers => {
         let quantity = answers.quantity;
         let id = answers.productID;
-        connection.query(`UPDATE PRODUCTS SET stock_quantity = stock_quantity+ ${quantity} WHERE item_id = ${id}`, function (err, res) {
-            if (err) throw err;
-            console.log(res)
-        })
+        connection.query(`UPDATE PRODUCTS SET stock_quantity = stock_quantity+ ? WHERE item_id = ?`,
+            [`${quantity}`, `${id}`],
+            function (err, res) {
+                if (err) throw err;
+                console.log(`Added successfully!\n ${res.message}`)
+            })
         connection.end()
     })
 }

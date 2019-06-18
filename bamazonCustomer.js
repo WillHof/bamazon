@@ -71,7 +71,7 @@ function productsPurchased(obj, arr) {
     if (newQuant >= 0) {
         connection.query(`UPDATE PRODUCTS SET stock_quantity = ${newQuant} WHERE item_id = ${id}`)
         connection.end()
-        console.log(`Your purchase of ${arr[id][1]} has been completed. You have been changed $${cost}.`)
+        console.log(`Your purchase of ${arr[id][1]} has been completed. You have been charged $${cost}.`)
     }
     else {
         console.log("Cannot initiate purchase! Insufficient quantity in stock!")
