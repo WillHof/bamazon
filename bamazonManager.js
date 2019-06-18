@@ -60,28 +60,38 @@ function viewLowInv() {
     });
 }
 function addToInv() {
-    inquirer.prompt([
-        {
-            name: "productID",
-            type: "number",
-            message: "Enter the ID of the product you wish to update:",
-        },
-        {
-            name: "quantity",
-            type: "number",
-            message: "Enter the quantity to add to our stock:"
-        }
-    ]).then(answers => {
-        let quantity = answers.quantity;
-        let id = answers.productID;
-        connection.query(`UPDATE PRODUCTS SET stock_quantity = stock_quantity+ ? WHERE item_id = ?`,
-            [`${quantity}`, `${id}`],
-            function (err, res) {
-                if (err) throw err;
-                console.log(`Added successfully!\n ${res.message}`)
-            })
-        connection.end()
-    })
+    connection.query("SELECT * FROM PRODUCTS", function (err, res) {
+        if (err) throw (err);
+        let array = [["Product ID", "Product Name", "Department", "Price", "Quantity"]];
+        res.forEach(element => {
+            let string = [`${element.item_id}`, `${element.product_name}`, `${element.department_name}`, `${element.price}`, `${element.stock_quantity}`]
+            array.push(string);
+        });
+        printResults(array);
+        inquirer.prompt([
+            {
+                name: "productID",
+                type: "number",
+                message: "Enter the ID of the product you wish to update:",
+            },
+            {
+                name: "quantity",
+                type: "number",
+                message: "Enter the quantity to add to our stock:"
+            }
+        ]).then(answers => {
+            let quantity = answers.quantity;
+            let id = answers.productID;
+            connection.query(`UPDATE PRODUCTS SET stock_quantity = stock_quantity+ ? WHERE item_id = ?`,
+                [`${quantity}`, `${id}`],
+                function (err, res) {
+                    if (err) throw err;
+                    console.log(`Added successfully!\n ${res.message}`)
+                })
+            connection.end()
+        })
+    });
+
 }
 function addProduct() {
     inquirer.prompt([
